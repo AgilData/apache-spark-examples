@@ -69,9 +69,19 @@ object RankCountiesBySex {
       .collect()
       .foreach(row => println(s"${row.getString(1)} M: ${row.getInt(3)}; F: ${row.getInt(4)}; Ratio: ${row.getFloat(5)}"))
 
-    //    csv
-//      .filter(row => row.getString(4) == "0034888") // find Broomfield County
-//      .collect().foreach(row => println(s"Total population: ${row.get(5)}; M: ${row.get(6)}; F: ${row.get(30)}"))
+    // can also do this with Spark SQL
+
+    geoDF.registerTempTable("geo")
+    countyPopulation.registerTempTable("pop")
+
+    sqlContext.sql(
+      "SELECT geo.name, pop.male, pop.female, pop.m2f " +
+      "FROM geo JOIN pop ON geo.logrecid = pop.logrecid " +
+      "WHERE geo.sumlev = '050' " +
+      "ORDER BY m2f LIMIT 10"
+    ).registerTempTable("results")
+
+    sqlContext.sql("SELECT SUM(male) AS total_male FROM results").show()
 
   }
 
