@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %level ContextId:%X{ContextId} [%marker] Thread:[%thread] UserId - %X{UserId} [%c{1.}] - %m%n"/>
+        </Console>
+        <RollingFile name="RollingFile" fileName="target/logs/jdbc-test.log"
+                     filePattern="target/logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] ContextId - %X{ContextId} [%marker] ThreadId -
+                    %X{ThreadId} [%thread] UserId - %X{UserId} %c{1.} - %m%n
+                </Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="16 GB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="INFO">
+            <!--<AppenderRef ref="RollingFile"/>-->
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <logger name="org.apache.spark" level="WARN" additivity="false" >
+            <AppenderRef ref="Console"/>
+        </logger>
+
+    </Loggers>
+</Configuration>
