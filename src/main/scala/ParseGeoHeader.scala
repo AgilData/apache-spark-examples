@@ -1,6 +1,7 @@
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.{UserDefinedFunction, Row, DataFrame, SQLContext}
+import CensusSchema._
 
 object ParseGeoHeader {
 
@@ -39,16 +40,9 @@ object ParseGeoHeader {
 
   }
 
-  def parseGeo(s: String) = {
-    Geo(
-      s.substring(18,25),
-      s.substring(226,316).trim,
-      s.substring(318,327),
-      s.substring(8,11)
-    )
-  }
+
 
 }
 
-case class Geo(logrecno: String, name: String, population: String, sumlev: String)
+
 
