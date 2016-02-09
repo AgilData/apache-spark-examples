@@ -31,14 +31,14 @@ public class RDDExample {
                 .map(row -> new JPopulation(row[4], Integer.parseInt(row[6]), Integer.parseInt(row[30])));
 
         // to do a join, we first need to make paired RDDs
-        JavaPairRDD<String, JGeo> geoPairRDD = geoRDD.keyBy((Function<JGeo, String>) JGeo::getLogrecno);
-        JavaPairRDD<String, JPopulation> populationPairRDD = populationRDD.keyBy((Function<JPopulation, String>) JPopulation::getLogrecno);
+        JavaPairRDD<String, JGeo> geoPairRDD = geoRDD.keyBy(JGeo::getLogrecno);
+        JavaPairRDD<String, JPopulation> populationPairRDD = populationRDD.keyBy(JPopulation::getLogrecno);
 
         // now for the join
-        JavaPairRDD < String, Tuple2 <JGeo, JPopulation>> joined = geoPairRDD.join(populationPairRDD);
+        JavaPairRDD<String, Tuple2<JGeo, JPopulation>> joined = geoPairRDD.join(populationPairRDD);
 
         // now we want to merge the pairs of tuples back down into a simpler structure
-        JavaRDD<Object> flatRDD = joined.map((Function<Tuple2<String, Tuple2<JGeo, JPopulation>>, Object>) x -> new JPopulationSummary(
+        JavaRDD<Object> flatRDD = joined.map(x -> new JPopulationSummary(
                 x._1(),
                 x._2()._2().male,
                 x._2()._2().female
