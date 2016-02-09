@@ -29,6 +29,7 @@ public class WordCount {
     });
     JavaPairRDD<String, Integer> counts = pairs.reduceByKey((a, b) -> a + b)
         .filter(tuple -> tuple._2() > 100);
+        //NOTE: no RDD method to sort in Java (other than by key);
     counts.saveAsTextFile("testdata/words_java.txt");
 
   }

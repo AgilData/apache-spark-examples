@@ -16,14 +16,14 @@ object RankCountiesBySexRDD {
 
     val sqlContext = new SQLContext(sc)
 
-    var geoRDD = sqlContext.read.text("/home/andy/Documents/US_Census/2010/SF1/cogeo2010.sf1")
+    var geoRDD = sqlContext.read.text("testdata/cogeo2010.sf1")
       .map(row => Geo(
         row.getString(0).substring(18,25), // Logical Record No
         row.getString(0).substring(226,316).trim, // Name
         row.getString(0).substring(8,11) // Summary Level (050 is county)
       )).filter(geo => geo.sumlev == "050")
 
-    val populationRDD = sqlContext.read.text("/home/andy/Documents/US_Census/2010/SF1/co000182010.sf1")
+    val populationRDD = sqlContext.read.text("testdata/co000182010.sf1")
       .map(row => row.getString(0).split(","))
       .map(csv => Population(csv(4), csv(6).toInt, csv(30).toInt))
 

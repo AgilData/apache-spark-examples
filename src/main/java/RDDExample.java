@@ -19,14 +19,14 @@ public class RDDExample {
 
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
-        JavaRDD<JGeo> geoRDD = sc.textFile("/home/andy/Documents/US_Census/2010/SF1/cogeo2010.sf1")
+        JavaRDD<JGeo> geoRDD = sc.textFile("testdata/cogeo2010.sf1")
             .map(s -> new JGeo(
                 s.substring(18,25), // Logical Record No
                 s.substring(226,316).trim(), // Name
                 s.substring(8,11) // Summary Level (050 is county)
         ));
 
-        JavaRDD<JPopulation> populationRDD = sc.textFile("/home/andy/Documents/US_Census/2010/SF1/co000182010.sf1")
+        JavaRDD<JPopulation> populationRDD = sc.textFile("testdata/co000182010.sf1")
                 .map(s -> s.split(","))
                 .map(row -> new JPopulation(row[4], Integer.parseInt(row[6]), Integer.parseInt(row[30])));
 

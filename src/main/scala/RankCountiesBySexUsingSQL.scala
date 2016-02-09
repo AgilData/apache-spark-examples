@@ -15,7 +15,7 @@ object RankCountiesBySexUsingSQL {
 
     val sqlContext = new SQLContext(sc)
 
-    var geoRDD = sqlContext.read.text("/home/andy/Documents/US_Census/2010/SF1/cogeo2010.sf1")
+    var geoRDD = sqlContext.read.text("testdata/cogeo2010.sf1")
       .map(row => Row(
         row.getString(0).substring(18,25), // Logical Record No
         row.getString(0).substring(226,316).trim, // Name
@@ -28,7 +28,7 @@ object RankCountiesBySexUsingSQL {
       StructField("sumlev", DataTypes.StringType)
     ))).alias("geo")
 
-    val file18 = sqlContext.read.text("/home/andy/Documents/US_Census/2010/SF1/co000182010.sf1")
+    val file18 = sqlContext.read.text("testdata/co000182010.sf1")
       .map(row => Row(row.getString(0).split(","): _*))
       .map(row => Row(row.getString(4), row.getString(6).toInt, row.getString(30).toInt, row.getString(6).toInt * 1.0f / row.getString(30).toInt))
 
