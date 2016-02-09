@@ -31,8 +31,10 @@ public class JRankCountiesBySexUsingDataFrame {
         .map(row -> new JPopulation(row[4], Integer.parseInt(row[6]), Integer.parseInt(row[30])));
 
     DataFrame geoDF = sqlContext.createDataFrame(geoRDD, JGeo.class).alias("geo");
+    geoDF.printSchema();
 
     DataFrame popDF = sqlContext.createDataFrame(populationRDD, JPopulation.class).alias("pop");
+    popDF.printSchema();
 
     // I'd like to do this but I can't use the scala lit function in Java
 //    DataFrame join = geoDF.join(popDF, "logrecno");
