@@ -1,6 +1,6 @@
-import org.apache.spark.sql.types.{StructField, DataTypes, StructType}
-import org.apache.spark.sql.{DataFrame, Row, SQLContext}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types.{DataTypes, StructField, StructType}
+import org.apache.spark.sql.{DataFrame, Row, SQLContext}
 import org.apache.spark.{SparkConf, SparkContext}
 
 object RankCountiesBySexUsingDataFrame {
