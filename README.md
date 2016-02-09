@@ -21,5 +21,7 @@ This repo also contains the classic word count examples, in Java and Scala. Sugg
 
 http://ocw.mit.edu/ans7870/6/6.006/s08/lecturenotes/files/t8.shakespeare.txt
 
+## About Us
 
+These examples were put together for some talks on Apache Spark by AgilData [http://www.agildata.com/]
 
