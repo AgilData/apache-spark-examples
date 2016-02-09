@@ -23,8 +23,8 @@ object ParseGeoHeader {
 
     // parse by mapping to RDD[Row]
     val map: RDD[Row] = geo.map(row => Row(parseGeo(row.getString(0))))
-      .filter(row => row.get(0).asInstanceOf[Geo].sumlev == "050")
-      .filter(row => row.get(0).asInstanceOf[Geo].name contains "Broomfield")
+      .filter(row => row.get(0).asInstanceOf[JGeo].sumlev == "050")
+      .filter(row => row.get(0).asInstanceOf[JGeo].name contains "Broomfield")
 
     map.take(5).foreach(println(_))
 
