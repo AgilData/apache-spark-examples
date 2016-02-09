@@ -40,14 +40,14 @@ public class RDDExample {
         // now we want to merge the pairs of tuples back down into a simpler structure
         JavaRDD<Object> flatRDD = joined.map(x -> new JPopulationSummary(
                 x._1(),
-                x._2()._2().male,
-                x._2()._2().female
+                x._2()._2().getMale(),
+                x._2()._2().getFemale()
         ));
 
         // now we can sort, and grab the top N entries
         flatRDD.sortBy((Function<Object, Object>) obj -> {
             final JPopulationSummary p = (JPopulationSummary) obj;
-            return p.male * 1.0f / p.female;
+            return p.getMale() * 1.0f / p.getFemale();
         }, true, 1)
                 .top(10)
                 .forEach(System.out::println);
@@ -56,9 +56,9 @@ public class RDDExample {
 
 class JGeo implements Serializable {
 
-    String logrecno;
-    String name;
-    String sumlev;
+    private String logrecno;
+    private String name;
+    private String sumlev;
 
     public JGeo() {
     }
@@ -105,9 +105,9 @@ class JGeo implements Serializable {
 
 class JPopulation implements Serializable {
 
-    String logrecno;
-    int male;
-    int female;
+    private String logrecno;
+    private int male;
+    private int female;
 
     public JPopulation(String logrecno, int male, int female) {
         this.logrecno = logrecno;
@@ -151,9 +151,9 @@ class JPopulation implements Serializable {
 
 class JPopulationSummary implements Serializable {
 
-    String name;
-    int male;
-    int female;
+    private String name;
+    private int male;
+    private int female;
 
     public JPopulationSummary() {
     }

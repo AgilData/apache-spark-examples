@@ -11,9 +11,16 @@ Download Summary File 1 data for Colorado:
 
 http://www2.census.gov/census_2010/04-Summary_File_1/Colorado/
 
-Documentation:
+usgeo2010.txt contains geographic information in fixed-width format. For the examples in this repo we are only
+interested in the following fields:
 
-http://www.census.gov/prod/cen2010/doc/sf1.pdf
+```
+s.substring(18,25),   // Logical Record No
+s.substring(226,316), // Name
+s.substring(8,11)     // Summary Level (050 is county)
+```
+
+For full documentation on the file formats, download http://www.census.gov/prod/cen2010/doc/sf1.pdf
 
 ## Word Count Examples
 
