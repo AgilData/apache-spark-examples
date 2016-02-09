@@ -30,23 +30,32 @@ public class RDDExample {
                 .map(s -> s.split(","))
                 .map(row -> new Population(row[4], Integer.parseInt(row[6]), Integer.parseInt(row[30])));
 
+        // to do a join, we first need to make paired RDDs
+
         JavaPairRDD<String, JGeo> geoPairRDD = geoRDD.keyBy((Function<JGeo, String>) JGeo::getLogrecno);
 
         JavaPairRDD<String, Population> populationPairRDD = populationRDD.keyBy((Function<Population, String>) Population::getLogrecno);
 
+        // now for the join
+
         JavaPairRDD<String, Tuple2<JGeo, Population>> joined = geoPairRDD.join(populationPairRDD);
+
         //joined.collect().forEach(x -> System.out.println(x));
 
+        // now we want to merge the pairs of tuples back down into a simpler structure
         JavaRDD<Object> flatRDD = joined.map((Function<Tuple2<String, Tuple2<JGeo, Population>>, Object>) x -> new PopulationSummary(
                 x._1(),
                 x._2()._2().male,
                 x._2()._2().female
         ));
 
+        // now we can sort, and grab the top N entires
         flatRDD.sortBy((Function<Object, Object>) obj -> {
             final PopulationSummary p = (PopulationSummary) obj;
             return p.male * 1.0f / p.female;
-        }, true, 1).top(10).forEach(x -> System.out.println(x));
+        }, true, 1)
+                .top(10)
+                .forEach(x -> System.out.println(x));
     }
 }
 
