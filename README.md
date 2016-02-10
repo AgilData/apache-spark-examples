@@ -6,6 +6,9 @@ Apache Spark Examples
 
 These examples were put together for some talks on Apache Spark by AgilData [http://www.agildata.com/]
 
+Note that some of the Java examples do not currently work. This is to highlight some of the issues when using Java
+with the DataFrame API and this is covered in our talk (we will update this README with a link to the slides soon).
+
 ## US Census 2010
 
 There are various code samples in this repo in both Java and Scala for performing some trivial analytics on US census
