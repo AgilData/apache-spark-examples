@@ -7,7 +7,7 @@ import org.apache.spark.sql.SQLContext;
 
 import java.util.Arrays;
 
-public class JRankCountiesBySexUsingDataFrame {
+public class JRankCountiesBySexUsingSQL {
 
   public static void main(String[] args) {
 
@@ -36,20 +36,18 @@ public class JRankCountiesBySexUsingDataFrame {
     DataFrame popDF = sqlContext.createDataFrame(populationRDD, JPopulation.class).alias("pop");
     popDF.printSchema();
 
-    DataFrame join = geoDF.join(popDF, "logrecno");
+    geoDF.registerTempTable("geo");
+    popDF.registerTempTable("pop");
 
-    // I'd like to do this but I can't use the scala lit function in Java
-    //join.sort(join.col("male").multiply(lit(1.0f)).divide(join.col("female")));
+    //TODO: fails with: can not access a member of class JGeo with modifiers "public"
+    Row[] rows = sqlContext.sql(
+        "SELECT geo.name, pop.male, pop.female, pop.male/pop.female as m2f " +
+            "FROM geo JOIN pop ON geo.logrecno = pop.logrecno " +
+            "WHERE geo.sumlev = '050' " +
+            "ORDER BY m2f LIMIT 10"
+    ).collect();
 
-    DataFrame newDF = join.sort(join.col("male").divide(join.col("female")).alias("m2f"));
-
-    Row[] result = newDF
-        .sort("m2f")
-        .limit(10)
-        .collect();
-
-    Arrays.stream(result).forEach(System.out::println);
-
+    Arrays.stream(rows).forEach(System.out::println);
 
   }
 }
