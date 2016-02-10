@@ -18,6 +18,12 @@ object WordCountExample {
       .filter(_._2 > 100)
       .sortBy(_._2, ascending = false)
       .saveAsTextFile("testdata/words_scala.txt")
+
+    // if you want to try adding more transformations, here are some challenges:
+    // - filter out empty strings
+    // - filter out words with fewer than N characters
+    // - convert all words to lower case before the map operation
+    // - change the number of partitions
   }
 
 }

@@ -20,17 +20,30 @@ public class WordCount {
 
     JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
+    // open the text file as an RDD of String
     JavaRDD<String> textFile = sc.textFile("testdata/shakespeare.txt");
+
+    // convert each line into a collection of words
     JavaRDD<String> words = textFile.flatMap(new FlatMapFunction<String, String>() {
       public Iterable<String> call(String s) { return Arrays.asList(s.split(" ")); }
     });
+
+    // map each word to a tuple containing the word and the value 1
     JavaPairRDD<String, Integer> pairs = words.mapToPair(new PairFunction<String, String, Integer>() {
       public Tuple2<String, Integer> call(String s) { return new Tuple2<>(s, 1); }
     });
-    JavaPairRDD<String, Integer> counts = pairs.reduceByKey((a, b) -> a + b)
-        .filter(tuple -> tuple._2() > 100);
-        //NOTE: no RDD method to sort in Java (other than by key);
-    counts.saveAsTextFile("testdata/words_java.txt");
+
+    // for all tuples that have the same key (word), perform an aggregation to add the counts
+    JavaPairRDD<String, Integer> counts = pairs.reduceByKey(new org.apache.spark.api.java.function.Function2<Integer, Integer, Integer>() {
+      @Override
+      public Integer call(Integer a, Integer b) throws Exception {
+        return a + b;
+      }
+    });
+
+    // perform some final transformations, and then save the output to a file
+    counts.filter(tuple -> tuple._2() > 100)
+            .saveAsTextFile("testdata/words_java.txt");
 
   }
 
