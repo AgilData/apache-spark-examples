@@ -22,7 +22,7 @@ public class WordCountJava8Concise {
 
     // open the text file as an RDD of String
     sc.textFile("testdata/shakespeare.txt")
-        .flatMap(line -> Arrays.asList(line.split(" ")))
+        .flatMap(line -> Arrays.asList(WordHelper.split(line)))
         .mapToPair(word -> new Tuple2<>(word, 1))
         .reduceByKey((a, b) -> a + b)
         .filter(tuple -> tuple._2() > 100)

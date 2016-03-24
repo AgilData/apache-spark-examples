@@ -27,7 +27,7 @@ public class WordCountJava8 {
     JavaRDD<String> textFile = sc.textFile("testdata/shakespeare.txt");
 
     // convert each line into a collection of words
-    JavaRDD<String> words = textFile.flatMap(line -> Arrays.asList(line.split(" ")));
+    JavaRDD<String> words = textFile.flatMap(line -> Arrays.asList(WordHelper.split(line)));
 
     // map each word to a tuple containing the word and the value 1
     JavaPairRDD<String, Integer> pairs = words.mapToPair(word -> new Tuple2<>(word, 1));

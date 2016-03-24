@@ -29,7 +29,7 @@ public class WordCount {
 
     // convert each line into a collection of words
     JavaRDD<String> words = textFile.flatMap(new FlatMapFunction<String, String>() {
-      public Iterable<String> call(String line) { return Arrays.asList(line.split(" ")); }
+      public Iterable<String> call(String line) { return Arrays.asList(WordHelper.split(line)); }
     });
 
     // map each word to a tuple containing the word and the value 1
