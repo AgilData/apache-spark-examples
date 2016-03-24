@@ -1,3 +1,4 @@
+import org.apache.commons.io.FileUtils;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -8,11 +9,14 @@ import org.apache.spark.api.java.function.PairFunction;
 import scala.Function2;
 import scala.Tuple2;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class WordCount {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
+
+    FileUtils.deleteDirectory(new File("testdata/words_java.txt"));
 
     SparkConf sparkConf = new SparkConf()
         .setAppName("Example")
