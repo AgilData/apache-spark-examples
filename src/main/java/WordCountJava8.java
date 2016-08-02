@@ -15,7 +15,7 @@ public class WordCountJava8 {
 
   public static void main(String[] args) throws Exception {
 
-    FileUtils.deleteDirectory(new File("testdata/words_java.txt"));
+    FileUtils.deleteDirectory(new File("testdata/words_java8.txt"));
 
     SparkConf sparkConf = new SparkConf()
         .setAppName("Example")
@@ -37,7 +37,7 @@ public class WordCountJava8 {
 
     // perform some final transformations, and then save the output to a file
     counts.filter(tuple -> tuple._2() > 100)
-            .saveAsTextFile("testdata/words_java.txt");
+            .saveAsTextFile("testdata/words_java8.txt");
 
   }
 
