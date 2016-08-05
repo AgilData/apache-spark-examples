@@ -46,7 +46,7 @@ public class JRankCountiesBySexUsingRDD {
 
         popSummary
             .sortBy((Function<JPopulationSummary, Object>) p -> p.getMale() * 1.0f / p.getFemale(), true, 1)
-            .top(10)
+            .take(10)
             .forEach(System.out::println);
     }
 }

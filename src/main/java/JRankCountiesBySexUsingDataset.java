@@ -8,12 +8,21 @@ public class JRankCountiesBySexUsingDataset {
 
   public static void main(String[] args) {
 
-    SparkSession spark = SparkSession.builder()
-        .master("local[*]")
-        .appName("Example")
-        .getOrCreate();
+//    SparkSession spark = SparkSession.builder()
+//        .master("local[*]")
+//        .appName("Example")
+//        .getOrCreate();
 
-    Dataset<JGeo> geo = spark.read().text("testdata/cogeo2010.sf1")
+
+    SparkConf sparkConf = new SparkConf()
+        .setAppName("Example")
+        .setMaster("local[*]");
+
+    JavaSparkContext sc = new JavaSparkContext(sparkConf);
+
+    SQLContext sqlContext  = new SQLContext(sc);
+
+    Dataset<JGeo> geo = sqlContext.read().text("testdata/cogeo2010.sf1")
         .map(new MapFunction<Row, JGeo>() {
                @Override
                public JGeo call(Row row) throws Exception {
@@ -25,7 +34,7 @@ public class JRankCountiesBySexUsingDataset {
                }
              }, Encoders.bean(JGeo.class));
 
-    Dataset<JPopulation> pop = spark.read().text("testdata/co000182010.sf1")
+    Dataset<JPopulation> pop = sqlContext.read().text("testdata/co000182010.sf1")
         .map(new MapFunction<Row, JPopulation>() {
           @Override
           public JPopulation call(Row row) throws Exception {
