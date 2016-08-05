@@ -1,8 +1,6 @@
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.DataFrame;
-import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
 
 import java.util.Arrays;
@@ -30,24 +28,24 @@ public class JRankCountiesBySexUsingSQL {
         .map(s -> s.split(","))
         .map(row -> new JPopulation(row[4], Integer.parseInt(row[6]), Integer.parseInt(row[30])));
 
-    DataFrame geoDF = sqlContext.createDataFrame(geoRDD, JGeo.class).alias("geo");
-    geoDF.printSchema();
-
-    DataFrame popDF = sqlContext.createDataFrame(populationRDD, JPopulation.class).alias("pop");
-    popDF.printSchema();
-
-    geoDF.registerTempTable("geo");
-    popDF.registerTempTable("pop");
-
-    //TODO: fails with: can not access a member of class JGeo with modifiers "public"
-    Row[] rows = sqlContext.sql(
-        "SELECT geo.name, pop.male, pop.female, pop.male/pop.female as m2f " +
-            "FROM geo JOIN pop ON geo.logrecno = pop.logrecno " +
-            "WHERE geo.sumlev = '050' " +
-            "ORDER BY m2f LIMIT 10"
-    ).collect();
-
-    Arrays.stream(rows).forEach(System.out::println);
+//    DataFrame geoDF = sqlContext.createDataFrame(geoRDD, JGeo.class).alias("geo");
+//    geoDF.printSchema();
+//
+//    DataFrame popDF = sqlContext.createDataFrame(populationRDD, JPopulation.class).alias("pop");
+//    popDF.printSchema();
+//
+//    geoDF.registerTempTable("geo");
+//    popDF.registerTempTable("pop");
+//
+//    //TODO: fails with: can not access a member of class JGeo with modifiers "public"
+//    Row[] rows = sqlContext.sql(
+//        "SELECT geo.name, pop.male, pop.female, pop.male/pop.female as m2f " +
+//            "FROM geo JOIN pop ON geo.logrecno = pop.logrecno " +
+//            "WHERE geo.sumlev = '050' " +
+//            "ORDER BY m2f LIMIT 10"
+//    ).collect();
+//
+//    Arrays.stream(rows).forEach(System.out::println);
 
   }
 }

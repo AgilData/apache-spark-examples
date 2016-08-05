@@ -1,7 +1,6 @@
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.DataFrame;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
 
@@ -30,25 +29,25 @@ public class JRankCountiesBySexUsingDataFrame {
         .map(s -> s.split(","))
         .map(row -> new JPopulation(row[4], Integer.parseInt(row[6]), Integer.parseInt(row[30])));
 
-    DataFrame geoDF = sqlContext.createDataFrame(geoRDD, JGeo.class).alias("geo");
-    geoDF.printSchema();
-
-    DataFrame popDF = sqlContext.createDataFrame(populationRDD, JPopulation.class).alias("pop");
-    popDF.printSchema();
-
-    DataFrame join = geoDF.join(popDF, "logrecno");
-
-    // I'd like to do this but I can't use the scala lit function in Java
-    //join.sort(join.col("male").multiply(lit(1.0f)).divide(join.col("female")));
-
-    DataFrame newDF = join.sort(join.col("male").divide(join.col("female")).alias("m2f"));
-
-    Row[] result = newDF
-        .sort("m2f")
-        .limit(10)
-        .collect();
-
-    Arrays.stream(result).forEach(System.out::println);
+//    Dataset[Row] geoDF = sqlContext.createDataFrame(geoRDD, JGeo.class).alias("geo");
+//    geoDF.printSchema();
+//
+//    DataFrame popDF = sqlContext.createDataFrame(populationRDD, JPopulation.class).alias("pop");
+//    popDF.printSchema();
+//
+//    DataFrame join = geoDF.join(popDF, "logrecno");
+//
+//    // I'd like to do this but I can't use the scala lit function in Java
+//    //join.sort(join.col("male").multiply(lit(1.0f)).divide(join.col("female")));
+//
+//    DataFrame newDF = join.sort(join.col("male").divide(join.col("female")).alias("m2f"));
+//
+//    Row[] result = newDF
+//        .sort("m2f")
+//        .limit(10)
+//        .collect();
+//
+//    Arrays.stream(result).forEach(System.out::println);
 
 
   }
