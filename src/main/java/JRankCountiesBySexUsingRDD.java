@@ -38,19 +38,16 @@ public class JRankCountiesBySexUsingRDD {
         JavaPairRDD<String, Tuple2<JGeo, JPopulation>> joined = geoPairRDD.join(populationPairRDD);
 
         // now we want to merge the pairs of tuples back down into a simpler structure
-        JavaRDD<Object> flatRDD = joined.map(x -> new JPopulationSummary(
-                x._1(),
-                x._2()._2().getMale(),
-                x._2()._2().getFemale()
+        JavaRDD<JPopulationSummary> popSummary = joined.map(x -> new JPopulationSummary(
+            x._1(),
+            x._2()._2().getMale(),
+            x._2()._2().getFemale()
         ));
 
-        // now we can sort, and grab the top N entries
-        flatRDD.sortBy((Function<Object, Object>) obj -> {
-            final JPopulationSummary p = (JPopulationSummary) obj;
-            return p.getMale() * 1.0f / p.getFemale();
-        }, true, 1)
-                .top(10)
-                .forEach(System.out::println);
+        popSummary
+            .sortBy((Function<JPopulationSummary, Object>) p -> p.getMale() * 1.0f / p.getFemale(), true, 1)
+            .top(10)
+            .forEach(System.out::println);
     }
 }
 

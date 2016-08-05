@@ -1,7 +1,7 @@
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.SQLContext;
+import org.apache.spark.sql.*;
 
 import java.util.Arrays;
 
@@ -28,7 +28,13 @@ public class JRankCountiesBySexUsingSQL {
         .map(s -> s.split(","))
         .map(row -> new JPopulation(row[4], Integer.parseInt(row[6]), Integer.parseInt(row[30])));
 
-//    DataFrame geoDF = sqlContext.createDataFrame(geoRDD, JGeo.class).alias("geo");
+
+//
+//    Dataset<Row> dataFrame = sqlContext.createDataFrame(geoRDD, );
+
+//    Encoder<JGeo> encoder = Encoders.bean(JGeo.class);
+//    sqlContext.createDataset(geoRDD, encoder)
+//
 //    geoDF.printSchema();
 //
 //    DataFrame popDF = sqlContext.createDataFrame(populationRDD, JPopulation.class).alias("pop");
