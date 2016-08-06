@@ -6,6 +6,9 @@ Apache Spark Examples
 
 These examples were put together for some talks on Apache Spark by AgilData [http://www.agildata.com/]
 
+[8/5/16] This repo has been updated to use Apache Spark 2.0. The original code for Apache Spark 1.6.x is 
+available on this branch: https://github.com/AgilData/apache-spark-examples/tree/spark_1.6.x
+
 Note that some of the Java examples do not currently work. This is to highlight some of the issues when using Java
 with the DataFrame API and this is covered in our talk (we will update this README with a link to the slides soon).
 

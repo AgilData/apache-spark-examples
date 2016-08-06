@@ -18,19 +18,14 @@ public class ConvertDataFrameToDataset {
             .csv("testdata/people.csv");
 
         Dataset<Person> ds = df.map(new MapFunction<Row, Person>() {
-                                        @Override
-                                        public Person call(Row value) throws Exception {
-                                            return new Person(Integer.parseInt(value.getString(0)), value.getString(1), value.getString(2));
-                                        }
-                                    }, Encoders.bean(Person.class));
+            @Override
+            public Person call(Row value) throws Exception {
+                return new Person(Integer.parseInt(value.getString(0)), value.getString(1), value.getString(2));
+            }
+        }, Encoders.bean(Person.class));
 
-
-      //df.map(value -> new Person(Integer.parseInt(value.getString(0)), value.getString(1), value.getString(2)), Encoders.bean(Person.class));
 
         ds.show();
-
-        //csv
-            //Dataset<Person> peopleDS = spark.read().json(path).as(personEncoder);
     }
 
 
