@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-class JGeo implements Serializable {
+public class JGeo implements Serializable {
 
     private String logrecno;
     private String name;

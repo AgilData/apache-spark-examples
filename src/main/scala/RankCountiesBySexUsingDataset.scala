@@ -14,6 +14,11 @@ object RankCountiesBySexUsingDataset {
 
     import spark.implicits._
 
+    var foo: Dataset[String] = spark.createDataset(List("one","two","three"))
+
+    val dataset: Dataset[Geo] = spark.read.option("header","true").csv("testdata/foo.csv").as[Geo]
+    dataset.show()
+
     var geo: Dataset[Geo] = spark.read.text("testdata/cogeo2010.sf1")
       .map(row => Geo(
       row.getString(0).substring(18,25), // Logical Record No
